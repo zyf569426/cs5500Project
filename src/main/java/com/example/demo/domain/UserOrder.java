@@ -20,7 +20,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class Order {
+public class UserOrder {
 	@Column(name = "id")
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -46,13 +46,27 @@ public class Order {
 	@NotNull
 	private Float totalPrice;
 
-	public Order(Long userId, String productName, Integer quantity, Float price,
-		Float totalPrice) {
+	@Column(name = "credit_card_id")
+	@NotNull
+	private Long creditCardId;
+
+	@Column(name = "status")
+	@NotNull
+	private String status;
+
+	public UserOrder(Long userId,
+		String productName, Integer quantity,
+		Float price,
+		Float totalPrice,
+		Long creditCardId,
+		String status) {
 		this.userId = userId;
 		this.productName = productName;
 		this.quantity = quantity;
 		this.price = price;
 		this.totalPrice = totalPrice;
+		this.creditCardId = creditCardId;
+		this.status = status;
 	}
 }
 

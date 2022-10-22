@@ -39,6 +39,10 @@ public class CreditCard {
 	@NotNull
 	private String name;
 
+	@Column(name = "csv")
+	@NotNull
+	private String csv;
+
 	@Column(name = "bill_address")
 	@NotNull
 	private String billAddress;
@@ -47,11 +51,12 @@ public class CreditCard {
 	@NotNull
 	private Float balance;
 
-	public CreditCard(String number, String validThru, String name, String billAddress,
+	public CreditCard(String number, String validThru, String name, String csv, String billAddress,
 		Float balance) {
 		this.number = number;
 		this.validThru = validThru;
 		this.name = name;
+		this.csv = csv;
 		this.billAddress = billAddress;
 		this.balance = balance;
 	}

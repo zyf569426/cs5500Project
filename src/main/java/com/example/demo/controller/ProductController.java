@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
-import com.example.demo.domain.User;
-import com.example.demo.service.UserService;
+import com.example.demo.domain.Product;
+import com.example.demo.service.ProductService;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,43 +16,43 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(path = "user")
-public class UserController {
+@RequestMapping(path = "product")
+public class ProductController {
 
-	private final UserService userService;
+	private final ProductService productService;
 
 	@Autowired
-	public UserController(UserService userService) {
-		this.userService = userService;
+	public ProductController(ProductService productService) {
+		this.productService = productService;
 	}
 
 	@GetMapping
-	public List<User> getUsers() {
-		return userService.getAll();
+	public List<Product> getAll() {
+		return productService.getAll();
 	}
 
 	@GetMapping(path = "{id}")
-	public Optional<User> getUser(@PathVariable("id") Long id) {
-		return userService.get(id);
+	public Optional<Product> get(@PathVariable("id") Long id) {
+		return productService.get(id);
 	}
 
 	@PostMapping
-	public void addUser(@RequestBody User user) {
-		userService.add(user);
+	public void add(@RequestBody Product product) {
+		productService.add(product);
 	}
 
 	@DeleteMapping(path = "{id}")
-	public void deleteUser(@PathVariable("id") Long id) {
-		userService.delete(id);
+	public void delete(@PathVariable("id") Long id) {
+		productService.delete(id);
 	}
 
 	@PutMapping(path = "{id}")
-	public void updateUser(
+	public void update(
 		@PathVariable("id") Long id,
-		@RequestParam(required = false) String username,
-		@RequestParam(required = false) String password,
-		@RequestParam(required = false) String email,
-		@RequestParam(required = false) Float balance) {
-		userService.update(id, username, password, email, balance);
+		@RequestParam(required = false) String name,
+		@RequestParam(required = false) Integer quantity,
+		@RequestParam(required = false) Float price) {
+		productService.update(id, name, quantity, price);
 	}
 }
+
