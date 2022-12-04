@@ -9,7 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import net.bytebuddy.asm.Advice.Local;
 
 @Entity
 @Table
