@@ -1,7 +1,9 @@
 package com.example.demo.service;
 
+import com.example.demo.domain.CardDTO;
 import com.example.demo.domain.CreditCard;
 import com.example.demo.domain.Product;
+import com.example.demo.domain.SimpleCardDTO;
 import com.example.demo.domain.User;
 import com.example.demo.repository.CreditCardRepository;
 import java.util.List;
@@ -9,9 +11,14 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 @Service
 public class CreditCardService {
+
+	private final String CHECK_CARD_URL = "https://c3jkkrjnzlvl5lxof74vldwug40pxsqo.lambda-url.us-west-2.on.aws/";
+	private final String CHECK_CARD_FUND_URL = "https://223didiouo3hh4krxhm4n4gv7y0pfzxk.lambda-url.us-west-2.on.aws";
+
 	private CreditCardRepository creditCardRepository;
 
 	@Autowired
@@ -83,5 +90,21 @@ public class CreditCardService {
 			throw new IllegalStateException("Not enough balance");
 		}
 		update(id, null, null, null, null,null, newBalance);
+	}
+
+	public boolean isCardValid(String number) {
+		RestTemplate restTemplate = new RestTemplate();
+		SimpleCardDTO card = new SimpleCardDTO(number);
+		String response = restTemplate.postForObject(CHECK_CARD_URL, card, String.class);
+		System.out.println(response);
+		return response != null && response.contains("true");
+	}
+
+	public boolean isFundEnough(String number, double amt) {
+		RestTemplate restTemplate = new RestTemplate();
+		CardDTO card = new CardDTO(number, amt);
+		String response = restTemplate.postForObject(CHECK_CARD_FUND_URL, card, String.class);
+		System.out.println(response);
+		return response != null && response.contains("true");
 	}
 }

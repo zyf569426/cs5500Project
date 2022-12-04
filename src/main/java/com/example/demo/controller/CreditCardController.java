@@ -57,5 +57,15 @@ public class CreditCardController {
 		@RequestParam(required = false) Float balance) {
 		creditCardService.update(id, number, validThru, name, csv, billAddress, balance);
 	}
+
+	@GetMapping(path = "check/{number}")
+	public String checkCard(@PathVariable("number") String number) {
+		return creditCardService.isCardValid(number) ? "true" : "false";
+	}
+
+	@GetMapping(path = "check/{number}/{amt}")
+	public String checkCardFund(@PathVariable("number") String number, @PathVariable("amt") double amt) {
+		return creditCardService.isFundEnough(number, amt) ? "true" : "false";
+	}
 }
 
