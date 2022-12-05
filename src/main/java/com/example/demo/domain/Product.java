@@ -30,11 +30,6 @@ public class Product {
 	@NotNull
 	private String name;
 
-	// delete
-//	@Column(name = "quantity")
-//	@NotNull
-//	private Integer quantity;
-
 	@Column(name = "price")
 	@NotNull
 	private Float price;
@@ -44,10 +39,4 @@ public class Product {
 		this.price = price;
 	}
 
-	// delete
-//	public Product(String name, Integer quantity, Float price) {
-//		this.name = name;
-//		this.quantity = quantity;
-//		this.price = price;
-//	}
 }

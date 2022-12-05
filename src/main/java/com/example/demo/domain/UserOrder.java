@@ -46,10 +46,6 @@ public class UserOrder {
 	@NotNull
 	private Float totalPrice;
 
-//	@Column(name = "credit_card_id")
-//	@NotNull
-//	private Long creditCardId;
-
 	@Column(name = "card_number")
 	@NotNull
 	private String cardNumber;

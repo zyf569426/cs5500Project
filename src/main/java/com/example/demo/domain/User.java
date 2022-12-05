@@ -40,13 +40,4 @@ public class User {
     @Column(name = "balance")
     private Float balance;
 
-//    @Column(name = "credit_card_id")
-//    private Long creditCardId; // todo
-
-    public User(String username, String password, String email, Float balance) {
-    }
-
-    public User(String username, String password, String email) {
-    }
-
 }

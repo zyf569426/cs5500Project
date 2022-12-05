@@ -1,5 +1,4 @@
 package com.example.demo.controller;
-
 import com.example.demo.domain.Product;
 import com.example.demo.service.ProductService;
 import java.util.List;

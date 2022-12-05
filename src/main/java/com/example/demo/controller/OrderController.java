@@ -5,13 +5,13 @@ import com.example.demo.service.OrderService;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -46,8 +46,8 @@ public class OrderController {
 //	}
 
 	@PutMapping(path = "{id}")
-	public void cancel(@PathVariable("id") Long id) {
-		orderService.cancel(id);
+	public void refund(@PathVariable("id") Long id, @RequestParam(required = true) Float amount) {
+		orderService.refund(id, amount);
 	}
 }
 
