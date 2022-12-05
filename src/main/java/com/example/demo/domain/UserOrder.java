@@ -26,11 +26,11 @@ public class UserOrder {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@Column(name = "user_id", unique = true)
+	@Column(name = "user_id")
 	@NotNull
 	private Long userId;
 
-	@Column(name = "product_name", unique = true)
+	@Column(name = "product_name")
 	@NotNull
 	private String productName;
 

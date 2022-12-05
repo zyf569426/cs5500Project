@@ -15,16 +15,24 @@ public class CardValidator {
 	public static boolean isCardValid(String number) {
 		RestTemplate restTemplate = new RestTemplate();
 		SimpleCardDTO card = new SimpleCardDTO(number);
-		String response = restTemplate.postForObject(CHECK_CARD_URL, card, String.class);
-		System.out.println(response);
+		String response;
+		try {
+			response = restTemplate.postForObject(CHECK_CARD_URL, card, String.class);
+		} catch (Exception e) {
+			return false;
+		}
 		return response != null && response.contains("true");
 	}
 
 	public static boolean isFundEnough(String number, double amt) {
 		RestTemplate restTemplate = new RestTemplate();
 		CardDTO card = new CardDTO(number, amt);
-		String response = restTemplate.postForObject(CHECK_CARD_FUND_URL, card, String.class);
-		System.out.println(response);
+		String response;
+		try {
+			response = restTemplate.postForObject(CHECK_CARD_FUND_URL, card, String.class);
+		} catch (Exception e) {
+			return false;
+		}
 		return response != null && response.contains("true");
 	}
 }

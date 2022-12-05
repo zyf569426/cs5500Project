@@ -1,9 +1,11 @@
 package com.example.demo.controller;
 
 import com.example.demo.domain.User;
+import com.example.demo.service.OrderService;
 import com.example.demo.service.UserService;
 import java.util.List;
 import java.util.Optional;
+import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,15 +22,22 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
 	private final UserService userService;
+	private final OrderService orderService;
 
 	@Autowired
-	public UserController(UserService userService) {
+	public UserController(UserService userService, OrderService orderService) {
 		this.userService = userService;
+		this.orderService = orderService;
 	}
 
 	@GetMapping
 	public List<User> getUsers() {
 		return userService.getAll();
+	}
+
+	@GetMapping(path = "balance/{id}")
+	public Float getTotalBalance(@PathVariable("id") Long id) {
+		return orderService.getTotalBalanceByUserId(id);
 	}
 
 	@GetMapping(path = "{id}")

@@ -30,6 +30,11 @@ public class OrderController {
 		return orderService.getAll();
 	}
 
+	@GetMapping(path = "/status/{status}")
+	public List<UserOrder> getAllCompleted(@PathVariable("status") String status) {
+		return orderService.listOrderByStatus(status);
+	}
+
 	@GetMapping(path = "{id}")
 	public Optional<UserOrder> get(@PathVariable("id") Long id) {
 		return orderService.get(id);

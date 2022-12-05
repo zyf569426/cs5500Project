@@ -17,8 +17,6 @@ public class OrderService {
 	private OrderRepository orderRepository;
 
 	@Autowired
-	private ProductService productService;
-	@Autowired
 	private ProductRepository productRepository;
 
 	@Autowired
@@ -30,8 +28,16 @@ public class OrderService {
 		return orderRepository.findAll();
 	}
 
+	public List<UserOrder> listOrderByStatus(String status) {
+		return orderRepository.findOrderByStatus(status);
+	}
+
 	public Optional<UserOrder> get(Long id) {
 		return orderRepository.findById(id);
+	}
+
+	public Float getTotalBalanceByUserId(Long userId) {
+		return orderRepository.findTotalBalanceByUserId(userId);
 	}
 
 	public void add(UserOrder userOrder) {
