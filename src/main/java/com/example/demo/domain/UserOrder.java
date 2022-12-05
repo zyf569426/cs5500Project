@@ -59,21 +59,5 @@ public class UserOrder {
 	@NotNull
 	private String status;
 
-	public UserOrder(Long userId,
-		String productName, Integer quantity,
-		Float price,
-		Float totalPrice,
-		String cardNumber,
-		String cardType,
-		String status) {
-		this.userId = userId;
-		this.productName = productName;
-		this.quantity = quantity;
-		this.price = price;
-		this.totalPrice = totalPrice;
-		this.cardNumber = cardNumber;
-		this.cardType = cardType;
-		this.status = status;
-	}
 }
 

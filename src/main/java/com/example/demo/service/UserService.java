@@ -46,11 +46,6 @@ public class UserService {
 				"user with id " + id + " does not exist"
 			));
 
-//		if (!user.getPassword().equals(password)) {
-//			throw new IllegalStateException(
-//				"username does not match password"
-//			);
-//		}
 		if (username != null) {
 			user.setUsername(username);
 		}

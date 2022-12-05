@@ -8,20 +8,20 @@ import com.example.demo.util.StringUtil;
 import com.example.demo.validator.CardValidator;
 import java.util.List;
 import java.util.Optional;
-import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 @Service
 public class OrderService {
-	private OrderRepository orderRepository;
+
+	private final OrderRepository orderRepository;
+	private final ProductRepository productRepository;
 
 	@Autowired
-	private ProductRepository productRepository;
-
-	@Autowired
-	public OrderService(OrderRepository orderRepository) {
+	public OrderService(OrderRepository orderRepository, ProductRepository productRepository) {
 		this.orderRepository = orderRepository;
+		this.productRepository = productRepository;
 	}
 
 	public List<UserOrder> getAll() {
@@ -54,7 +54,7 @@ public class OrderService {
 			throw new IllegalStateException("Card number is invalid: " + userOrder.getCardNumber());
 		}
 
-		if (userOrder.getCardType().equals(CardValidator.DEBIT_CARD_TYPE)) {
+		if (userOrder.getCardType().equals(StringUtil.DEBIT_CARD_TYPE)) {
 			if (!CardValidator.isFundEnough(userOrder.getCardNumber(), userOrder.getTotalPrice())) {
 				throw new IllegalStateException(
 					"Insufficient fund in debit card: " + userOrder.getCardNumber());
