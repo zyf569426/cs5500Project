@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 public class OrderService {
 	private OrderRepository orderRepository;
 	@Autowired
-	private CreditCardService creditCardService;
+	private CardService cardService;
 	@Autowired
 	private ProductService productService;
 	@Autowired
@@ -36,7 +36,7 @@ public class OrderService {
 	@Transactional(rollbackOn = Exception.class)
 	public void add(UserOrder userOrder) {
 		orderRepository.save(userOrder);
-		creditCardService.updateBalance(userOrder.getCreditCardId(), userOrder.getTotalPrice());
+		cardService.updateBalance(userOrder.getCreditCardId(), userOrder.getTotalPrice());
 		Optional<Product> exists = productRepository.findProductByName(userOrder.getProductName());
 		if (exists.isPresent()) {
 			Product product = exists.get();
@@ -61,7 +61,7 @@ public class OrderService {
 		if (!userOrder.getStatus().equals("completed")) {
 			throw new IllegalStateException("Order with id " + id + " cannot be canceled");
 		}
-		creditCardService.updateBalance(userOrder.getCreditCardId(), -userOrder.getTotalPrice());
+		cardService.updateBalance(userOrder.getCreditCardId(), -userOrder.getTotalPrice());
 		userOrder.setStatus("canceled");
 		orderRepository.save(userOrder);
 

@@ -1,11 +1,9 @@
 package com.example.demo.service;
 
 import com.example.demo.domain.CardDTO;
-import com.example.demo.domain.CreditCard;
-import com.example.demo.domain.Product;
+import com.example.demo.domain.Card;
 import com.example.demo.domain.SimpleCardDTO;
-import com.example.demo.domain.User;
-import com.example.demo.repository.CreditCardRepository;
+import com.example.demo.repository.CardRepository;
 import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
@@ -14,36 +12,36 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
-public class CreditCardService {
+public class CardService {
 
 	private final String CHECK_CARD_URL = "https://c3jkkrjnzlvl5lxof74vldwug40pxsqo.lambda-url.us-west-2.on.aws/";
 	private final String CHECK_CARD_FUND_URL = "https://223didiouo3hh4krxhm4n4gv7y0pfzxk.lambda-url.us-west-2.on.aws";
 
-	private CreditCardRepository creditCardRepository;
+	private CardRepository cardRepository;
 
 	@Autowired
-	public CreditCardService(CreditCardRepository creditCardRepository) {
-		this.creditCardRepository = creditCardRepository;
+	public CardService(CardRepository cardRepository) {
+		this.cardRepository = cardRepository;
 	}
 
-	public List<CreditCard> getAll() {
-		return creditCardRepository.findAll();
+	public List<Card> getAll() {
+		return cardRepository.findAll();
 	}
 
-	public Optional<CreditCard> get(Long id) {
-		return creditCardRepository.findById(id);
+	public Optional<Card> get(Long id) {
+		return cardRepository.findById(id);
 	}
 
-	public void add(CreditCard creditCard) {
-		creditCardRepository.save(creditCard);
+	public void add(Card card) {
+		cardRepository.save(card);
 	}
 
 	public void delete(Long id) {
-		boolean exists = creditCardRepository.existsById(id);
+		boolean exists = cardRepository.existsById(id);
 		if (!exists) {
 			throw new IllegalStateException("Credit card with id " + id + " does not exists");
 		}
-		creditCardRepository.deleteById(id);
+		cardRepository.deleteById(id);
 	}
 
 	@Transactional(rollbackOn = Exception.class)
@@ -55,37 +53,37 @@ public class CreditCardService {
 		String csv,
 		String billAddress,
 		Float balance) {
-		CreditCard creditCard = creditCardRepository.findById(id)
+		Card card = cardRepository.findById(id)
 			.orElseThrow( () -> new IllegalStateException(
 				"CreditCard with id " + id + " does not exist"
 			));
 		if (number != null) {
-			creditCard.setNumber(number);
+			card.setNumber(number);
 		}
 		if (validThru != null) {
-			creditCard.setValidThru(validThru);
+			card.setValidThru(validThru);
 		}
 		if (name != null) {
-			creditCard.setName(name);
+			card.setName(name);
 		}
 		if (csv != null) {
-			creditCard.setCsv(csv);
+			card.setCsv(csv);
 		}
 		if (billAddress != null) {
-			creditCard.setBillAddress(billAddress);
+			card.setBillAddress(billAddress);
 		}
 		if (balance != null) {
-			creditCard.setBalance(balance);
+			card.setBalance(balance);
 		}
-		creditCardRepository.save(creditCard);
+		cardRepository.save(card);
 	}
 
 	public void updateBalance(Long id, Float totalPrice) {
-		CreditCard creditCard = creditCardRepository.findById(id)
+		Card card = cardRepository.findById(id)
 			.orElseThrow( () -> new IllegalStateException(
 				"CreditCard with id " + id + " does not exist"
 			));
-		Float newBalance = creditCard.getBalance()-totalPrice;
+		Float newBalance = card.getBalance()-totalPrice;
 		if (newBalance < 0) {
 			throw new IllegalStateException("Not enough balance");
 		}

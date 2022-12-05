@@ -20,7 +20,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class CreditCard {
+public class Card {
 
 	@Column(name = "id")
 	@Id
@@ -51,7 +51,7 @@ public class CreditCard {
 	@NotNull
 	private Float balance;
 
-	public CreditCard(String number, String validThru, String name, String csv, String billAddress,
+	public Card(String number, String validThru, String name, String csv, String billAddress,
 		Float balance) {
 		this.number = number;
 		this.validThru = validThru;

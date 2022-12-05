@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
-import com.example.demo.domain.CreditCard;
-import com.example.demo.service.CreditCardService;
+import com.example.demo.domain.Card;
+import com.example.demo.service.CardService;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,34 +16,34 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(path = "credit_card")
-public class CreditCardController {
+@RequestMapping(path = "card")
+public class CardController {
 
-	private final CreditCardService creditCardService;
+	private final CardService cardService;
 
 	@Autowired
-	public CreditCardController(CreditCardService creditCardService) {
-		this.creditCardService = creditCardService;
+	public CardController(CardService cardService) {
+		this.cardService = cardService;
 	}
 
 	@GetMapping
-	public List<CreditCard> getAll() {
-		return creditCardService.getAll();
+	public List<Card> getAll() {
+		return cardService.getAll();
 	}
 
 	@GetMapping(path = "{id}")
-	public Optional<CreditCard> get(@PathVariable("id") Long id) {
-		return creditCardService.get(id);
+	public Optional<Card> get(@PathVariable("id") Long id) {
+		return cardService.get(id);
 	}
 
 	@PostMapping
-	public void add(@RequestBody CreditCard creditCard) {
-		creditCardService.add(creditCard);
+	public void add(@RequestBody Card card) {
+		cardService.add(card);
 	}
 
 	@DeleteMapping(path = "{id}")
 	public void delete(@PathVariable("id") Long id) {
-		creditCardService.delete(id);
+		cardService.delete(id);
 	}
 
 	@PutMapping(path = "{id}")
@@ -55,17 +55,17 @@ public class CreditCardController {
 		@RequestParam(required = false) String csv,
 		@RequestParam(required = false) String billAddress,
 		@RequestParam(required = false) Float balance) {
-		creditCardService.update(id, number, validThru, name, csv, billAddress, balance);
+		cardService.update(id, number, validThru, name, csv, billAddress, balance);
 	}
 
 	@GetMapping(path = "check/{number}")
 	public String checkCard(@PathVariable("number") String number) {
-		return creditCardService.isCardValid(number) ? "true" : "false";
+		return cardService.isCardValid(number) ? "true" : "false";
 	}
 
 	@GetMapping(path = "check/{number}/{amt}")
 	public String checkCardFund(@PathVariable("number") String number, @PathVariable("amt") double amt) {
-		return creditCardService.isFundEnough(number, amt) ? "true" : "false";
+		return cardService.isFundEnough(number, amt) ? "true" : "false";
 	}
 }
 
