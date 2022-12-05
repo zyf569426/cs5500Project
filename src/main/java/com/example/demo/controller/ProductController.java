@@ -46,13 +46,14 @@ public class ProductController {
 		productService.delete(id);
 	}
 
-	@PutMapping(path = "{id}")
-	public void update(
-		@PathVariable("id") Long id,
-		@RequestParam(required = false) String name,
-		@RequestParam(required = false) Integer quantity,
-		@RequestParam(required = false) Float price) {
-		productService.update(id, name, quantity, price);
-	}
+	// delete
+//	@PutMapping(path = "{id}")
+//	public void update(
+//		@PathVariable("id") Long id,
+//		@RequestParam(required = false) String name,
+//		@RequestParam(required = false) Integer quantity,
+//		@RequestParam(required = false) Float price) {
+//		productService.update(id, name, quantity, price);
+//	}
 }
 

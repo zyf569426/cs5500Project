@@ -46,9 +46,18 @@ public class UserOrder {
 	@NotNull
 	private Float totalPrice;
 
-	@Column(name = "credit_card_id")
+//	@Column(name = "credit_card_id")
+//	@NotNull
+//	private Long creditCardId;
+
+	@Column(name = "card_number")
 	@NotNull
-	private Long creditCardId;
+	private String cardNumber;
+
+	@Column(name = "card_type")
+	@NotNull
+	private String cardType;
+
 
 	@Column(name = "status")
 	@NotNull
@@ -58,14 +67,16 @@ public class UserOrder {
 		String productName, Integer quantity,
 		Float price,
 		Float totalPrice,
-		Long creditCardId,
+		String cardNumber,
+		String cardType,
 		String status) {
 		this.userId = userId;
 		this.productName = productName;
 		this.quantity = quantity;
 		this.price = price;
 		this.totalPrice = totalPrice;
-		this.creditCardId = creditCardId;
+		this.cardNumber = cardNumber;
+		this.cardType = cardType;
 		this.status = status;
 	}
 }

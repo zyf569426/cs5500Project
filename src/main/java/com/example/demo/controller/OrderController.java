@@ -40,10 +40,10 @@ public class OrderController {
 		orderService.add(userOrder);
 	}
 
-	@DeleteMapping(path = "{id}")
-	public void delete(@PathVariable("id") Long id) {
-		orderService.delete(id);
-	}
+//	@DeleteMapping(path = "{id}")
+//	public void delete(@PathVariable("id") Long id) {
+//		orderService.delete(id);
+//	}
 
 	@PutMapping(path = "{id}")
 	public void cancel(@PathVariable("id") Long id) {

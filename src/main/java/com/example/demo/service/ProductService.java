@@ -39,21 +39,23 @@ public class ProductService {
 		productRepository.deleteById(id);
 	}
 
-	@Transactional(rollbackOn = Exception.class)
-	public void update(Long id, String name, Integer quantity, Float price) {
-		Product product = productRepository.findById(id)
-			.orElseThrow( () -> new IllegalStateException(
-				"Product with id " + id + " does not exist"
-				));
-		if (name != null) {
-			product.setName(name);
-		}
-		if (quantity != null) {
-			product.setQuantity(quantity);
-		}
-		if (price != null) {
-			product.setPrice(price);
-		}
-	}
+	// delete
+//	@Transactional(rollbackOn = Exception.class)
+//	public void update(Long id, String name, Integer quantity, Float price) {
+//		Product product = productRepository.findById(id)
+//			.orElseThrow( () -> new IllegalStateException(
+//				"Product with id " + id + " does not exist"
+//				));
+//		if (name != null) {
+//			product.setName(name);
+//		}
+//		if (quantity != null) {
+//			product.setQuantity(quantity);
+//		}
+//		if (price != null) {
+//			product.setPrice(price);
+//		}
+//		productRepository.save(product);
+//	}
 
 }

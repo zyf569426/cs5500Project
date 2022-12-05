@@ -30,17 +30,24 @@ public class Product {
 	@NotNull
 	private String name;
 
-	@Column(name = "quantity")
-	@NotNull
-	private Integer quantity;
+	// delete
+//	@Column(name = "quantity")
+//	@NotNull
+//	private Integer quantity;
 
 	@Column(name = "price")
 	@NotNull
 	private Float price;
 
-	public Product(String name, Integer quantity, Float price) {
+	public Product(String name, Float price) {
 		this.name = name;
-		this.quantity = quantity;
 		this.price = price;
 	}
+
+	// delete
+//	public Product(String name, Integer quantity, Float price) {
+//		this.name = name;
+//		this.quantity = quantity;
+//		this.price = price;
+//	}
 }

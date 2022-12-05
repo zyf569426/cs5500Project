@@ -4,6 +4,7 @@ import com.example.demo.domain.Product;
 import com.example.demo.domain.UserOrder;
 import com.example.demo.repository.OrderRepository;
 import com.example.demo.repository.ProductRepository;
+import com.example.demo.validator.CardValidator;
 import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
@@ -33,24 +34,46 @@ public class OrderService {
 		return orderRepository.findById(id);
 	}
 
-	@Transactional(rollbackOn = Exception.class)
 	public void add(UserOrder userOrder) {
-		orderRepository.save(userOrder);
-		cardService.updateBalance(userOrder.getCreditCardId(), userOrder.getTotalPrice());
 		Optional<Product> exists = productRepository.findProductByName(userOrder.getProductName());
-		if (exists.isPresent()) {
-			Product product = exists.get();
-			Integer newQuantity = product.getQuantity()-userOrder.getQuantity();
-			if (newQuantity < 0) {
-				throw new IllegalStateException("not enough quantity in product " + product.getName());
-			}
-			productService.update(
-				product.getId(),
-				null,
-				newQuantity,
-				null);
+		if (exists.isEmpty()) {
+			throw new IllegalStateException(
+				"Product name not exist: " + userOrder.getProductName());
 		}
+		Product product = exists.get();
+		userOrder.setPrice(product.getPrice());
+		userOrder.setTotalPrice(product.getPrice() * userOrder.getQuantity());
+
+		if (!CardValidator.isCardValid(userOrder.getCardNumber())) {
+			throw new IllegalStateException("Card number is invalid: " + userOrder.getCardNumber());
+		}
+
+		if (userOrder.getCardType().equals(cardService.DEBIT_CARD_TYPE)) {
+			if (!CardValidator.isFundEnough(userOrder.getCardNumber(), userOrder.getTotalPrice())) {
+				throw new IllegalStateException(
+					"Insufficient fund in debit card: " + userOrder.getCardNumber());
+			}
+		}
+		orderRepository.save(userOrder);
 	}
+
+
+
+		// delete
+//		cardService.updateBalance(userOrder.getCreditCardId(), userOrder.getTotalPrice());
+//		if (exists.isPresent()) {
+//			Product product = exists.get();
+//			Integer newQuantity = product.getQuantity()-userOrder.getQuantity();
+//			if (newQuantity < 0) {
+//				throw new IllegalStateException("not enough quantity in product " + product.getName());
+//			}
+//			productService.update(
+//				product.getId(),
+//				null,
+//				newQuantity,
+//				null);
+//		}
+
 
 	@Transactional(rollbackOn = Exception.class)
 	public void cancel(Long id) {
@@ -61,29 +84,30 @@ public class OrderService {
 		if (!userOrder.getStatus().equals("completed")) {
 			throw new IllegalStateException("Order with id " + id + " cannot be canceled");
 		}
-		cardService.updateBalance(userOrder.getCreditCardId(), -userOrder.getTotalPrice());
+//		cardService.updateBalance(userOrder.getCreditCardId(), -userOrder.getTotalPrice());
 		userOrder.setStatus("canceled");
 		orderRepository.save(userOrder);
 
-		Optional<Product> exists = productRepository.findProductByName(userOrder.getProductName());
-		if (exists.isPresent()) {
-			Product product = exists.get();
-			Integer newQuantity = product.getQuantity()+userOrder.getQuantity();
-			productService.update(
-				product.getId(),
-				null,
-				newQuantity,
-				null);
-		}
+		// delete
+//		Optional<Product> exists = productRepository.findProductByName(userOrder.getProductName());
+//		if (exists.isPresent()) {
+//			Product product = exists.get();
+//			Integer newQuantity = product.getQuantity()+userOrder.getQuantity();
+//			productService.update(
+//				product.getId(),
+//				null,
+//				newQuantity,
+//				null);
+//		}
 	}
 
-	public void delete(Long id) {
-		boolean exists = orderRepository.existsById(id);
-		if (!exists) {
-			throw new IllegalStateException("Order with id " + id + " does not exists");
-		}
-		orderRepository.deleteById(id);
-	}
+//	public void delete(Long id) {
+//		boolean exists = orderRepository.existsById(id);
+//		if (!exists) {
+//			throw new IllegalStateException("Order with id " + id + " does not exists");
+//		}
+//		orderRepository.deleteById(id);
+//	}
 
 
 //	public void updateOrder(Long id, String status) {
@@ -101,4 +125,5 @@ public class OrderService {
 //		order.setStatus(status);
 //
 //	}
+
 }
