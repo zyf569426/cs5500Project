@@ -7,4 +7,20 @@ public class CardDTO {
 		this.card_number = card_number;
 		this.amt = amt;
 	}
+
+	public String getCard_number() {
+		return card_number;
+	}
+
+	public void setCard_number(String card_number) {
+		this.card_number = card_number;
+	}
+
+	public Double getAmt() {
+		return amt;
+	}
+
+	public void setAmt(Double amt) {
+		this.amt = amt;
+	}
 }
