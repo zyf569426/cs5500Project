@@ -32,8 +32,15 @@ public class OrderController {
 	}
 
 	@GetMapping(path = "/status/{status}")
-	public List<UserOrder> getAllCompleted(@PathVariable("status") String status) {
+	public List<UserOrder> listOrderByStatus(@PathVariable("status") String status) {
 		return orderService.listOrderByStatus(status);
+	}
+
+	@GetMapping(path = "/condition")
+	public List<UserOrder> listOrderByCondition
+		(@RequestParam(required = false) String status,
+		@RequestParam(required = false) Long userId){
+		return orderService.listOrderByCondition(status, userId);
 	}
 
 	@GetMapping(path = "{id}")

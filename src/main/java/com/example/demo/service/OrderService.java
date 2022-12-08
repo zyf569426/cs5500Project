@@ -32,6 +32,16 @@ public class OrderService {
 		return orderRepository.findOrderByStatus(status);
 	}
 
+	public List<UserOrder> listOrderByCondition(String status, Long userId) {
+		if (status == null) {
+			return orderRepository.findOrderByUserId(userId);
+		} else if (userId == null) {
+			return orderRepository.findOrderByStatus(status);
+		} else {
+			return orderRepository.findOrderByStatusAndUserId(status, userId);
+		}
+	}
+
 	public Optional<UserOrder> get(Long id) {
 		return orderRepository.findById(id);
 	}
